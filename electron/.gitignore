@@ -2,3 +2,4 @@ node_modules
 TimetableStar3*
 wasm_exec.js
 main.wasm
+main.css

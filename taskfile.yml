@@ -1,16 +1,48 @@
 version: '3'
 
 tasks:
+
+  setup-electron:
+    dir: electron
+    cmds:
+      - npm install
   build-electron:
     dir: electron
     cmds:
-      - npm run make
+      - npx electron-packager . TimetableStar3 --platform=win32 --arch=x64
+  build-style:
+    dir: electron
+    cmds:
+      - npx node-sass --output-style=compressed main.scss main.css
+
   setup-go:
     cmds:
-      - cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" electron
+      - cmd: cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" electron
+        ignore_error: true
   build-go:
     cmds:
       - go build -o electron/main.wasm
     env:
       GOOS: js
       GOARCH: wasm
+
+  run-app:
+    dir: electron
+    cmds:
+      - npx electron .
+
+  build:
+    cmds:
+      - task: setup-electron
+      - task: setup-go
+      - task: build-style
+      - task: build-go
+      - task: build-electron
+
+  default:
+    cmds:
+      - task: setup-electron
+      - task: setup-go
+      - task: build-style
+      - task: build-go
+      - task: run-app

@@ -3,11 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
-  "dependencies": {},
+  "dependencies": {
+    "bulma": "^0.9.2",
+    "bulmaswatch": "^0.8.1"
+  },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.57",
     "electron": "^13.0.1",
-    "electron-packager": "^15.2.0"
+    "electron-packager": "^15.2.0",
+    "node-sass": "^6.0.0"
   },
   "scripts": {
     "start": "electron .",
