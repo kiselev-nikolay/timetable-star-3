@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  build-electron:
+    dir: electron
+    cmds:
+      - npm run make
+  setup-go:
+    cmds:
+      - cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" electron
+  build-go:
+    cmds:
+      - go build -o electron/main.wasm
+    env:
+      GOOS: js
+      GOARCH: wasm
