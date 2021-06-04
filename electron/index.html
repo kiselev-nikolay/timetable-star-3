@@ -7,11 +7,8 @@
   <link rel="stylesheet" href="main.css" />
 </head>
 
-<body class="container" style="padding: 1rem;">
-  <div class="notification is-primary">
-    <button class="delete"></button>
-    <span id="msg"></span>
-  </div>
+<body>
+  <div id="app" class="container" style="padding: 1rem;"></div>
 </body>
 
 <script src="wasm_exec.js"></script>
@@ -20,13 +17,7 @@
     const go = new Go();
     WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
       go.run(result.instance);
-      function print(text) {
-        document.getElementById("msg").innerHTML += text
-      }
-      function println(text) {
-        print(text + "\n")
-      }
-      println(render("Hej"))
+      setInterval(() => { document.getElementById("app").innerHTML = render() }, 100)
     });
   }
 </script>

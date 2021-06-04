@@ -21,7 +21,7 @@ tasks:
         ignore_error: true
   build-go:
     cmds:
-      - go build -o electron/main.wasm
+      - go build -o electron/main.wasm ./app
     env:
       GOOS: js
       GOARCH: wasm
@@ -39,10 +39,14 @@ tasks:
       - task: build-go
       - task: build-electron
 
-  default:
+  run:
     cmds:
       - task: setup-electron
       - task: setup-go
       - task: build-style
       - task: build-go
       - task: run-app
+
+  default:
+    cmds:
+      - task: run
