@@ -13,12 +13,18 @@
 
 <script src="wasm_exec.js"></script>
 <script>
+  const activeWindows = require('electron-active-window');
   window.onload = () => {
     const go = new Go();
     WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
       go.run(result.instance);
       window.apply = () => { document.getElementById("app").innerHTML = render(); }
       apply()
+      setInterval(() => {
+        activeWindows().getActiveWindow().then((result) => {
+          activeWindow(JSON.stringify(result));
+        });
+      }, 1000);
     });
   }
 </script>

@@ -2,6 +2,8 @@ package main
 
 import (
 	_ "embed"
+	"encoding/json"
+	"fmt"
 	"syscall/js"
 
 	"github.com/kiselev-nikolay/timetable-star-3/pkg/htmlgen"
@@ -28,6 +30,7 @@ func main() {
 	})
 	js.Global().Set("render", Render())
 	js.Global().Set("update", Update())
+	js.Global().Set("activeWindow", ActiveWindow())
 	select {}
 }
 
@@ -42,6 +45,24 @@ func Update() js.Func {
 		var key string = args[0].String()
 		state.Update(key)
 		js.Global().Call("apply")
+		return nil
+	})
+}
+
+type WindowData struct {
+	OS          string `json:"os"`          // linux
+	WindowClass string `json:"windowClass"` // chromium
+	WindowName  string `json:"windowName"`  // kiselev-nikolay (Nikolay Kiselev) - Chromium
+	WindowType  string `json:"windowType"`  // 340
+	WindowPid   string `json:"windowPid"`   // 34218
+}
+
+func ActiveWindow() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		var data string = args[0].String()
+		wd := &WindowData{}
+		json.Unmarshal([]byte(data), wd)
+		fmt.Printf("%#+v\n\n", wd)
 		return nil
 	})
 }
