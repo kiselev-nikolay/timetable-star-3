@@ -12,7 +12,7 @@
     "@electron-forge/cli": "^6.0.0-beta.57",
     "electron": "^13.0.1",
     "electron-packager": "^15.2.0",
-    "node-sass": "^6.0.0"
+    "node-sass": "^7.0.0"
   },
   "scripts": {
     "start": "electron .",
